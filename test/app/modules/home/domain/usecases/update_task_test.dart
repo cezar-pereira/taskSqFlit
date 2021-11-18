@@ -28,7 +28,7 @@ void main() {
     verify(() => repository.updateTask(taskEntity: taskEntity)).called(1);
   });
 
-  test('Should retunr a ERROR when updateTask', () async {
+  test('Should return a ERROR when updateTask', () async {
     var error = ErrorUpdateTaskEntity(message: 'error');
     when(() => repository.updateTask(taskEntity: taskEntity))
         .thenAnswer((_) async => Left(error));

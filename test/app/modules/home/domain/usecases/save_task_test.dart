@@ -28,7 +28,7 @@ void main() {
     verify(() => repository.saveTask(taskEntity: taskEntity)).called(1);
   });
 
-  test('Should retunr a ERROR when saveTask', () async {
+  test('Should return a ERROR when saveTask', () async {
     var error = ErrorSaveTaskEntity(message: 'error');
     when(() => repository.saveTask(taskEntity: taskEntity))
         .thenAnswer((_) async => Left(error));

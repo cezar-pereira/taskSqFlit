@@ -28,7 +28,7 @@ void main() {
     verify(() => repository.removeTask(taskEntity: taskEntity)).called(1);
   });
 
-  test('Should retunr a ERROR when removeTask', () async {
+  test('Should return a ERROR when removeTask', () async {
     var error = ErrorRemoveTaskEntity(message: 'error');
     when(() => repository.removeTask(taskEntity: taskEntity))
         .thenAnswer((_) async => Left(error));

@@ -4,8 +4,8 @@ class TaskModel extends TaskEntity {
   TaskModel(
       {required String id,
       required String name,
-      required DateTime date,
-      required bool isDone})
+      required bool isDone,
+      required DateTime date})
       : super(name: name, date: date);
 
   factory TaskModel.fromMap({required map}) {
@@ -21,8 +21,8 @@ class TaskModel extends TaskEntity {
     return TaskModel(
         id: id,
         name: name ?? this.name,
-        date: date ?? this.date,
-        isDone: isDone ?? this.isDone);
+        isDone: isDone ?? this.isDone,
+        date: date ?? this.date);
   }
 
   Map<String, dynamic> toMapSqlLite() {
