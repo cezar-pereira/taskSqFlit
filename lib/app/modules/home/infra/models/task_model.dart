@@ -8,12 +8,12 @@ class TaskModel extends TaskEntity {
       required DateTime date})
       : super(name: name, date: date);
 
-  factory TaskModel.fromMap({required map}) {
+  factory TaskModel.fromMapSqlFlite({required map}) {
     return TaskModel(
-      id: map['id'],
+      id: map['id'].toString(),
       name: map['name'],
-      isDone: map['isDone'],
-      date: map['date'],
+      isDone: map['isDone'] == 0 ? false : true,
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
     );
   }
 
@@ -25,12 +25,11 @@ class TaskModel extends TaskEntity {
         date: date ?? this.date);
   }
 
-  Map<String, dynamic> toMapSqlLite() {
+  Map<String, dynamic> toMapSqlFlite() {
     return {
-      'id': id,
       'name': name,
       'isDone': isDone ? 1 : 0,
-      'date': date.toIso8601String(),
+      'date': date.millisecondsSinceEpoch,
     };
   }
 }

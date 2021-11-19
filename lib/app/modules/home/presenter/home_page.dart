@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 
-import 'counter_cubit.dart';
+import 'task_cubit.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,46 +12,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final CounterCubit _counterCubit = Modular.get();
+  final CounterCubit _tasksCubit = Modular.get();
 
   @override
   void dispose() {
-    _counterCubit.close();
+    _tasksCubit.close();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tasksCubit.fetchTasks();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home")),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            child: Icon(Icons.remove),
-            onPressed: _counterCubit.decrement,
-          ),
-          FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: _counterCubit.increment,
-          ),
-        ],
+      appBar: AppBar(title: Text("Tasks")),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _tasksCubit.fetchTasks,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Button Tapped:"),
-            BlocBuilder<CounterCubit, int>(
-              bloc: _counterCubit,
-              builder: (context, count) {
-                return Text(
-                  "$count",
-                  style: Theme.of(context).textTheme.headline3,
-                );
-              },
-            ),
-          ],
+        child: BlocBuilder<CounterCubit, List<TaskEntity>>(
+          bloc: _tasksCubit,
+          builder: (context, list) {
+            if (list.isEmpty) {
+              return Text('Lista vazia');
+            } else {
+              return ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return Text(list[index].name);
+                },
+              );
+            }
+          },
         ),
       ),
     );
