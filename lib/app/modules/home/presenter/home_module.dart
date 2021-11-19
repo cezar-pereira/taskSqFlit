@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:todolist_flutter/app/modules/create_edit_task/presenter/create_edit_task_module.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
 import 'package:todolist_flutter/app/modules/home/domain/usecases/task/fetch_tasks.dart';
 import 'package:todolist_flutter/app/modules/home/domain/usecases/task/remove_task.dart';
@@ -37,5 +38,8 @@ class HomeModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute(Modular.initialRoute, child: (context, args) => HomePage()),
+    ModuleRoute('/create_update-task/',
+        module: CreateEditTaskModule(),
+        transition: TransitionType.rightToLeftWithFade),
   ];
 }

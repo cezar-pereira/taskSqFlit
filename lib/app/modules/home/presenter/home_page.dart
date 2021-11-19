@@ -35,7 +35,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _tasksCubit.fetchTasks,
+        onPressed: () {
+          Modular.to.pushNamed('/create_update-task/').then((value) {
+            if (value == true) {
+              _tasksCubit.fetchTasks();
+            }
+          });
+        },
       ),
       body: Center(
         child: BlocBuilder<CounterCubit, List<TaskModel>>(
@@ -74,7 +80,16 @@ class _HomePageState extends State<HomePage> {
                           backgroundColor: Colors.transparent,
                           foregroundColor: Theme.of(context).primaryColor,
                           label: 'Editar',
-                          onPressed: (context) {},
+                          onPressed: (context) {
+                            Modular.to
+                                .pushNamed('/create_update-task/',
+                                    arguments: list[index])
+                                .then((value) {
+                              if (value == true) {
+                                _tasksCubit.fetchTasks();
+                              }
+                            });
+                          },
                         ),
                         SlidableAction(
                           icon: Icons.delete_outline,

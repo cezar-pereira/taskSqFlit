@@ -27,9 +27,11 @@ class TaskDataSource implements TaskDataSourceInterface {
   }
 
   @override
-  Future<bool> saveTask({required TaskEntity task}) {
-    // TODO: implement saveTask
-    throw UnimplementedError();
+  Future<bool> saveTask({required TaskModel task}) async {
+    Database _database = await SqfliteDB.instance.database;
+
+    var result = await _database.insert('tasks', task.toMapSqlFlite());
+    return result > 0 ? true : false;
   }
 
   @override

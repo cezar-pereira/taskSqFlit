@@ -2,9 +2,9 @@ import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.da
 
 class TaskModel extends TaskEntity {
   TaskModel(
-      {required String id,
+      {String id = '',
       required String name,
-      required bool isDone,
+      bool isDone = false,
       required DateTime date})
       : super(name: name, date: date, id: id, isDone: isDone);
 
