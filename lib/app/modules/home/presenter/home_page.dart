@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
+import 'package:todolist_flutter/app/modules/home/presenter/components/card_task_component.dart';
 
 import 'task_cubit.dart';
 
@@ -42,11 +44,52 @@ class _HomePageState extends State<HomePage> {
             if (list.isEmpty) {
               return Text('Lista vazia');
             } else {
-              return ListView.builder(
+              return ListView.separated(
+                padding: const EdgeInsets.all(10),
                 itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return Text(list[index].name);
+                  return Slidable(
+                    child: CardTaskComponent(task: list[index]),
+                    endActionPane: ActionPane(
+                      extentRatio: 1,
+                      motion: const StretchMotion(),
+                      children: [
+                        SlidableAction(
+                          autoClose: false,
+                          icon: list[index].isDone
+                              ? Icons.remove_done_rounded
+                              : Icons.done_all_rounded,
+                          backgroundColor: Colors.transparent,
+                          foregroundColor:
+                              list[index].isDone ? Colors.red : Colors.green,
+                          label: list[index].isDone ? 'Concluir' : 'Feito',
+                          onPressed: (context) {
+                            setState(() {});
+                          },
+                        ),
+                        SlidableAction(
+                          icon: Icons.edit_outlined,
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Theme.of(context).primaryColor,
+                          label: 'Editar',
+                          onPressed: (context) {},
+                        ),
+                        SlidableAction(
+                          icon: Icons.delete_outline,
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.red,
+                          label: 'Remover',
+                          onPressed: (context) {
+                            setState(() {
+                              _tasksCubit.removeTask(task: list[index]);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
+                separatorBuilder: (context, index) => SizedBox(height: 10),
               );
             }
           },

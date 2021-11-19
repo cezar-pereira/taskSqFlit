@@ -6,7 +6,7 @@ class TaskModel extends TaskEntity {
       required String name,
       required bool isDone,
       required DateTime date})
-      : super(name: name, date: date);
+      : super(name: name, date: date, id: id, isDone: isDone);
 
   factory TaskModel.fromMapSqlFlite({required map}) {
     return TaskModel(

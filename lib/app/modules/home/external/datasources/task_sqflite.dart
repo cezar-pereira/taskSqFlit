@@ -11,18 +11,20 @@ class TaskDataSource implements TaskDataSourceInterface {
     Database _database = await SqfliteDB.instance.database;
     var data = await _database.query('tasks');
 
-    try {
-      return data.map((e) => TaskModel.fromMapSqlFlite(map: e)).toList();
-    } catch (e, s) {
-      dev.log('$e', stackTrace: s);
-    }
     return data.map((e) => TaskModel.fromMapSqlFlite(map: e)).toList();
   }
 
   @override
-  Future<bool> removeTask({required TaskEntity taskEntity}) {
-    // TODO: implement removeTask
-    throw UnimplementedError();
+  Future<bool> removeTask({required TaskEntity taskEntity}) async {
+    Database _database = await SqfliteDB.instance.database;
+    try {
+      var result = await _database.delete('tasks',
+          where: 'id = ?', whereArgs: [int.parse(taskEntity.id)]);
+      return result > 0 ? true : false;
+    } catch (e) {
+      dev.log('$e');
+      return false;
+    }
   }
 
   @override
