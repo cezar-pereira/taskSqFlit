@@ -67,8 +67,8 @@ class _HomePageState extends State<HomePage> {
                               : Icons.done_all_rounded,
                           backgroundColor: Colors.transparent,
                           foregroundColor:
-                              list[index].isDone ? Colors.red : Colors.green,
-                          label: list[index].isDone ? 'Concluir' : 'Feito',
+                              list[index].isDone ? Colors.green : Colors.red,
+                          label: list[index].isDone ? 'Feito' : 'Concluir',
                           onPressed: (context) {
                             setState(() {
                               _tasksCubit.updateStatus(task: list[index]);
