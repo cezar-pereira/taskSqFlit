@@ -1,13 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:dartz/dartz.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 abstract class RemoveTaskInterface {
-  Future<Either<ErrorRemoveTaskEntity, bool>> call(
-      {required TaskEntity taskEntity});
+  Future<Either<ErrorRemoveTaskEntity, bool>> call({required TaskModel task});
 }
 
 class RemoveTask implements RemoveTaskInterface {
@@ -16,7 +15,7 @@ class RemoveTask implements RemoveTaskInterface {
   RemoveTask({required this.repository});
   @override
   Future<Either<ErrorRemoveTaskEntity, bool>> call(
-      {required TaskEntity taskEntity}) async {
-    return await repository.removeTask(taskEntity: taskEntity);
+      {required TaskModel task}) async {
+    return await repository.removeTask(task: task);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
 import 'package:todolist_flutter/app/modules/home/domain/usecases/task/fetch_tasks.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 class UserRepositoryMock extends Mock implements TaskRepositoryInterface {}
 
@@ -18,7 +18,7 @@ void main() {
   });
 
   test('Should return a List<TaskEntity>', () async {
-    List<TaskEntity> list = [];
+    List<TaskModel> list = [];
     when(() => repository.fetchTasks()).thenAnswer((_) async => Right(list));
 
     var result = await useCase.call();

@@ -15,11 +15,15 @@ class SqfliteDB {
     String dbName = 'task.db';
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, dbName);
-    return openDatabase(path, version: 1, onCreate: _onCreate);
+    return openDatabase(path, version: 1, onCreate: _onCreate, onOpen: teste);
   }
 
   _onCreate(db, version) async {
     await db.execute(_task);
+  }
+
+  teste(db) async {
+    db.insert('tasks', {'name': 'cezar', 'isDone': 1, 'date': 1637297290});
   }
 
   String get _task => '''

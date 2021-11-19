@@ -15,7 +15,8 @@ class HomeModule extends Module {
   final List<Bind> binds = [
     Bind.lazySingleton((i) => CounterCubit(
         fetchTasksUsecase: i.get<FetchTasksInterface>(),
-        removeTasksUsecase: i.get<RemoveTaskInterface>())),
+        removeTasksUsecase: i.get<RemoveTaskInterface>(),
+        updateTasksUsecase: i.get<UpdateTaskInterface>())),
 
     //DATASOURCES
     Bind.lazySingleton((i) => TaskDataSource()),
@@ -29,6 +30,8 @@ class HomeModule extends Module {
         (i) => FetchTasks(repository: i.get<TaskRepositoryInterface>())),
     Bind.lazySingleton(
         (i) => RemoveTask(repository: i.get<TaskRepositoryInterface>())),
+    Bind.lazySingleton(
+        (i) => UpdateTask(repository: i.get<TaskRepositoryInterface>())),
   ];
 
   @override

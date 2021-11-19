@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 abstract class UpdateTaskInterface {
-  Future<Either<ErrorUpdateTaskEntity, bool>> call(
-      {required TaskEntity taskEntity});
+  Future<Either<ErrorUpdateTaskEntity, bool>> call({required TaskModel task});
 }
 
 class UpdateTask implements UpdateTaskInterface {
@@ -14,7 +13,7 @@ class UpdateTask implements UpdateTaskInterface {
   UpdateTask({required this.repository});
   @override
   Future<Either<ErrorUpdateTaskEntity, bool>> call(
-      {required TaskEntity taskEntity}) async {
-    return await repository.updateTask(taskEntity: taskEntity);
+      {required TaskModel task}) async {
+    return await repository.updateTask(task: task);
   }
 }

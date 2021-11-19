@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 class TaskRepositoryMock extends Mock implements TaskRepositoryInterface {}
 
@@ -16,7 +16,7 @@ void main() {
 
   group('FETCH TAKS', () {
     test('Should return a List<TaskEntity>', () async {
-      final List<TaskEntity> list = [];
+      final List<TaskModel> list = [];
       when(() => repository.fetchTasks()).thenAnswer((_) async => Right(list));
       var result = await repository.fetchTasks();
       expect(result, Right(list));
@@ -34,61 +34,64 @@ void main() {
   });
 
   group('REMOVE TASK', () {
-    var taskEntity = TaskEntity(name: 'name', date: DateTime.now());
+    var task =
+        TaskModel(name: 'Name', date: DateTime.now(), id: '1', isDone: false);
     test('Should return TRUE', () async {
-      when(() => repository.removeTask(taskEntity: taskEntity))
+      when(() => repository.removeTask(task: task))
           .thenAnswer((_) async => const Right(true));
-      var result = await repository.removeTask(taskEntity: taskEntity);
+      var result = await repository.removeTask(task: task);
       expect(result, const Right(true));
 
-      verify(() => repository.removeTask(taskEntity: taskEntity)).called(1);
+      verify(() => repository.removeTask(task: task)).called(1);
     });
 
     test('Should return ErrorRemoveTaskEntity', () async {
       ErrorRemoveTaskEntity error = ErrorRemoveTaskEntity(message: 'error');
-      when(() => repository.removeTask(taskEntity: taskEntity))
+      when(() => repository.removeTask(task: task))
           .thenAnswer((_) async => Left(error));
-      var result = await repository.removeTask(taskEntity: taskEntity);
+      var result = await repository.removeTask(task: task);
       expect(result, Left(error));
     });
   });
 
   group('SAVE TASK', () {
-    var taskEntity = TaskEntity(name: 'name', date: DateTime.now());
+    var task =
+        TaskModel(name: 'Name', date: DateTime.now(), id: '1', isDone: false);
     test('Should return TRUE', () async {
-      when(() => repository.saveTask(taskEntity: taskEntity))
+      when(() => repository.saveTask(task: task))
           .thenAnswer((_) async => const Right(true));
-      var result = await repository.saveTask(taskEntity: taskEntity);
+      var result = await repository.saveTask(task: task);
       expect(result, const Right(true));
 
-      verify(() => repository.saveTask(taskEntity: taskEntity)).called(1);
+      verify(() => repository.saveTask(task: task)).called(1);
     });
 
     test('Should return ErrorSaveTaskEntity', () async {
       ErrorSaveTaskEntity error = ErrorSaveTaskEntity(message: 'error');
-      when(() => repository.saveTask(taskEntity: taskEntity))
+      when(() => repository.saveTask(task: task))
           .thenAnswer((_) async => Left(error));
-      var result = await repository.saveTask(taskEntity: taskEntity);
+      var result = await repository.saveTask(task: task);
       expect(result, Left(error));
     });
   });
 
   group('UPDATE TASK', () {
-    var taskEntity = TaskEntity(name: 'name', date: DateTime.now());
+    var task =
+        TaskModel(name: 'Name', date: DateTime.now(), id: '1', isDone: false);
     test('Should return TRUE', () async {
-      when(() => repository.updateTask(taskEntity: taskEntity))
+      when(() => repository.updateTask(task: task))
           .thenAnswer((_) async => const Right(true));
-      var result = await repository.updateTask(taskEntity: taskEntity);
+      var result = await repository.updateTask(task: task);
       expect(result, const Right(true));
 
-      verify(() => repository.updateTask(taskEntity: taskEntity)).called(1);
+      verify(() => repository.updateTask(task: task)).called(1);
     });
 
     test('Should return ErrorUpdateTaskEntity', () async {
       ErrorUpdateTaskEntity error = ErrorUpdateTaskEntity(message: 'error');
-      when(() => repository.updateTask(taskEntity: taskEntity))
+      when(() => repository.updateTask(task: task))
           .thenAnswer((_) async => Left(error));
-      var result = await repository.updateTask(taskEntity: taskEntity);
+      var result = await repository.updateTask(task: task);
       expect(result, Left(error));
     });
   });

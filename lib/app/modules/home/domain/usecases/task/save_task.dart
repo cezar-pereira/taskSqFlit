@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 abstract class SaveTaskInterface {
-  Future<Either<ErrorSaveTaskEntity, bool>> call(
-      {required TaskEntity taskEntity});
+  Future<Either<ErrorSaveTaskEntity, bool>> call({required TaskModel task});
 }
 
 class SaveTask implements SaveTaskInterface {
@@ -15,7 +14,7 @@ class SaveTask implements SaveTaskInterface {
 
   @override
   Future<Either<ErrorSaveTaskEntity, bool>> call(
-      {required TaskEntity taskEntity}) async {
-    return await repository.saveTask(taskEntity: taskEntity);
+      {required TaskModel task}) async {
+    return await repository.saveTask(task: task);
   }
 }

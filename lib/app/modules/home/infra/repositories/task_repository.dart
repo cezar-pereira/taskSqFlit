@@ -1,8 +1,8 @@
 import 'package:todolist_flutter/app/modules/home/domain/errors/errors.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:todolist_flutter/app/modules/home/domain/repositories/task_repository.dart';
 import 'package:todolist_flutter/app/modules/home/infra/datasourcers/task_datasource.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 
 class TaskRepository implements TaskRepositoryInterface {
   final TaskDataSourceInterface dataSource;
@@ -10,7 +10,7 @@ class TaskRepository implements TaskRepositoryInterface {
   TaskRepository({required this.dataSource});
 
   @override
-  Future<Either<ErrorFetchTaskEntity, List<TaskEntity>>> fetchTasks() async {
+  Future<Either<ErrorFetchTaskEntity, List<TaskModel>>> fetchTasks() async {
     try {
       var result = await dataSource.fetchTasks();
       return Right(result);
@@ -21,9 +21,9 @@ class TaskRepository implements TaskRepositoryInterface {
 
   @override
   Future<Either<ErrorRemoveTaskEntity, bool>> removeTask(
-      {required TaskEntity taskEntity}) async {
+      {required TaskModel task}) async {
     try {
-      var result = await dataSource.removeTask(taskEntity: taskEntity);
+      var result = await dataSource.removeTask(task: task);
       if (result) {
         return Right(result);
       } else {
@@ -36,9 +36,9 @@ class TaskRepository implements TaskRepositoryInterface {
 
   @override
   Future<Either<ErrorSaveTaskEntity, bool>> saveTask(
-      {required TaskEntity taskEntity}) async {
+      {required TaskModel task}) async {
     try {
-      var result = await dataSource.saveTask(taskEntity: taskEntity);
+      var result = await dataSource.saveTask(task: task);
 
       if (result) {
         return Right(result);
@@ -52,9 +52,9 @@ class TaskRepository implements TaskRepositoryInterface {
 
   @override
   Future<Either<ErrorUpdateTaskEntity, bool>> updateTask(
-      {required TaskEntity taskEntity}) async {
+      {required TaskModel task}) async {
     try {
-      var result = await dataSource.updateTask(taskEntity: taskEntity);
+      var result = await dataSource.updateTask(task: task);
       if (result) {
         return Right(result);
       } else {

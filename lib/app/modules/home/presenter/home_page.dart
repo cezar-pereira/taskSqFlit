@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todolist_flutter/app/modules/home/domain/entities/task_entity.dart';
+import 'package:todolist_flutter/app/modules/home/infra/models/task_model.dart';
 import 'package:todolist_flutter/app/modules/home/presenter/components/card_task_component.dart';
 
 import 'task_cubit.dart';
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: _tasksCubit.fetchTasks,
       ),
       body: Center(
-        child: BlocBuilder<CounterCubit, List<TaskEntity>>(
+        child: BlocBuilder<CounterCubit, List<TaskModel>>(
           bloc: _tasksCubit,
           builder: (context, list) {
             if (list.isEmpty) {
@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
                               list[index].isDone ? Colors.red : Colors.green,
                           label: list[index].isDone ? 'Concluir' : 'Feito',
                           onPressed: (context) {
-                            setState(() {});
+                            setState(() {
+                              _tasksCubit.updateStatus(task: list[index]);
+                            });
                           },
                         ),
                         SlidableAction(

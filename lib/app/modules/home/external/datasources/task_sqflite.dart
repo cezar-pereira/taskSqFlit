@@ -7,7 +7,7 @@ import 'dart:developer' as dev;
 
 class TaskDataSource implements TaskDataSourceInterface {
   @override
-  Future<List<TaskEntity>> fetchTasks() async {
+  Future<List<TaskModel>> fetchTasks() async {
     Database _database = await SqfliteDB.instance.database;
     var data = await _database.query('tasks');
 
@@ -15,27 +15,30 @@ class TaskDataSource implements TaskDataSourceInterface {
   }
 
   @override
-  Future<bool> removeTask({required TaskEntity taskEntity}) async {
+  Future<bool> removeTask({required TaskEntity task}) async {
     Database _database = await SqfliteDB.instance.database;
     try {
-      var result = await _database.delete('tasks',
-          where: 'id = ?', whereArgs: [int.parse(taskEntity.id)]);
+      var result = await _database
+          .delete('tasks', where: 'id = ?', whereArgs: [int.parse(task.id)]);
       return result > 0 ? true : false;
     } catch (e) {
-      dev.log('$e');
       return false;
     }
   }
 
   @override
-  Future<bool> saveTask({required TaskEntity taskEntity}) {
+  Future<bool> saveTask({required TaskEntity task}) {
     // TODO: implement saveTask
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> updateTask({required TaskEntity taskEntity}) {
-    // TODO: implement updateTask
-    throw UnimplementedError();
+  Future<bool> updateTask({required TaskModel task}) async {
+    Database _database = await SqfliteDB.instance.database;
+
+    var result = await _database.update('tasks', task.toMapSqlFlite(),
+        where: 'id = ?', whereArgs: [task.id]);
+
+    return result > 0 ? true : false;
   }
 }
